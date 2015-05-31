@@ -32,6 +32,10 @@ class Gmagick extends \ImageWrapper\Image
 	 */
 	public function save($file = null)
 	{
+		if (preg_match('/\.(\w{2,4})$/', $file, $res))
+		{
+			$this->img->SetImageFormat(strtolower($res[1]));
+		}
 		$this->img->WriteImage($file);
 	}
 
@@ -50,18 +54,21 @@ class Gmagick extends \ImageWrapper\Image
 		{
 			if (self::Fit === $this->getGravity())
 			{
-				$this->img->resizeImage($width, $height, $filter, $blur, true);
+				$this->img->ResizeImage($width, $height, $filter, $blur, true);
 			}
 			else
 			{
 				$geo = $this->getAdaptiveGeometry($width, $height);
-				$this->img->resizeImage($geo['width'], $geo['height'], $filter, $blur);
-				$this->img->cropImage($width, $height, $geo['left'], $geo['top']);
+				$this->img->ResizeImage($geo['width'], $geo['height'], $filter, $blur);
+				$this->img->CropImage($width, $height, $geo['left'], $geo['top']);
+
+				// @todo GIF images empty space not removed
+				// $this->img->setImagePage($width, $height, 0, 0);
 			}
 		}
 		else
 		{
-			$this->img->resizeImage($width, $height, $filter, $blur);
+			$this->img->ResizeImage($width, $height, $filter, $blur);
 		}
 		return true;
 	}

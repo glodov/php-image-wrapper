@@ -59,7 +59,7 @@ class GD extends \ImageWrapper\Image
 		{
 			$file = $this->file;
 		}
-		switch ($this->type)
+		switch ($this->getImageFormat($file))
 		{
 			case IMAGETYPE_GIF:
 				return imagegif($this->img, $file);
@@ -152,6 +152,35 @@ class GD extends \ImageWrapper\Image
 	public function getHeight()
 	{
 		return $this->height;
+	}
+
+	/**
+	 * Returns image type format based on image file extension.
+	 * 
+	 * @access private
+	 * @param string $file The filename or extension.
+	 * @return integer The image type format.
+	 */
+	private function getImageFormat($file)
+	{
+		$type = null;
+		if (strlen($file) <= 4)
+		{
+			$type = strtolower($file);
+		}
+		else if (preg_match('/\.(\w{3,4})$/', $file, $res))
+		{
+			$type = strtolower($res[1]);
+		}
+		$types = [
+			'gif'	=> IMAGETYPE_GIF,
+			'jpg'	=> IMAGETYPE_JPEG,
+			'jpeg'	=> IMAGETYPE_JPEG,
+			'png'	=> IMAGETYPE_PNG,
+			'wbmp'	=> IMAGETYPE_WBMP,
+			'xbm'	=> IMAGETYPE_XBM
+		];
+		return isset($types[$type]) ? $types[$type] : $this->type;
 	}
 
 }

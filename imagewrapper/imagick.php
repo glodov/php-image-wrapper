@@ -36,6 +36,10 @@ class Imagick extends \ImageWrapper\Image
 	public function save($file = null)
 	{
 		$this->img->setCompressionQuality($this->getCompressionQuality());
+		if (preg_match('/\.(\w{2,4})$/', $file, $res))
+		{
+			$this->img->setImageFormat(strtolower($res[1]));
+		}
 		$this->img->writeImage($file);
 	}
 
@@ -61,6 +65,7 @@ class Imagick extends \ImageWrapper\Image
 				$geo = $this->getAdaptiveGeometry($width, $height);
 				$this->img->resizeImage($geo['width'], $geo['height'], $filter, $blur);
 				$this->img->cropImage($width, $height, $geo['left'], $geo['top']);
+				$this->img->setImagePage($width, $height, 0, 0);
 			}
 		}
 		else
