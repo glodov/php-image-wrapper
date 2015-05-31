@@ -105,12 +105,11 @@ class GD extends \ImageWrapper\Image
 				$img = imagecreatetruecolor($geo['width'], $geo['height']);
 				imagecopyresized($img, $this->img, 0, 0, 0, 0, 
 					$geo['width'], $geo['height'], $this->width, $this->height);
-				$this->img = imagecrop($img, [
-					'width' => $width, 
-					'height' => $height, 
-					'x' => $geo['left'], 
-					'y' => $geo['top']
-					]);
+				$this->img = $img;
+				$img = imagecreatetruecolor($width, $height);
+				imagecopyresized($img, $this->img, 0, 0, $geo['left'], $geo['top'],
+					$geo['width'], $geo['height'], $geo['width'], $geo['height']);
+				$this->img = $img;
 				$this->width = $width;
 				$this->height = $height;
 			}

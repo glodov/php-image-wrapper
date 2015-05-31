@@ -76,16 +76,16 @@ abstract class Image
 	 */
 	abstract public function getHeight();
 
-	const NorthWest = 2, 
-		North = 1, 
-		NorthEast = 11, 
-		West = 9, 
-		Center = 0, 
-		East = 3, 
-		SouthWest = 7, 
-		South = 6, 
-		SouthEast = 5,
-		Fit = 20;
+	const NorthWest = 'NorthWest', 
+		North = 'North', 
+		NorthEast = 'NorthEast', 
+		West = 'West', 
+		Center = 'Center', 
+		East = 'East', 
+		SouthWest = 'SouthWest', 
+		South = 'South', 
+		SouthEast = 'SouthEast',
+		Fit = 'Fit';
 
 	const GD = 1, Imagick = 2, Gmagick = 3, None = 0;
 
